@@ -85,7 +85,7 @@ class PlayActivity : AppCompatActivity() {
 
     fun refractorSecret() {
         secretDisplay = ""
-        secretWord?.forEach {
+        secretWord.forEach {
                 s -> secretDisplay += (checkIfGuessed(s.toString()))
         }
     }
