@@ -8,9 +8,9 @@
     <string name="todo">TODO</string>
     <string name="trystring">try</string>
     <string-array name="guessWords">
-        <item>Tranzystor</item>
-        <item>Oligarchia</item>
-        <item>Transylwania</item>
-        <item>Ostracyzm</item>
+        <item>Transistor</item>
+        <item>Oligarchy</item>
+        <item>Transylvania</item>
+        <item>Ostracism</item>
     </string-array>
 </resources>

@@ -1,34 +1,32 @@
 package com.example.luzkan.hangman
 
-import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.constraint.ConstraintLayout
 import android.support.v7.app.AlertDialog
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_play.*
-import java.util.*
 
 class PlayActivity : AppCompatActivity() {
 
     // When kill reaches 10 - player loses.
-    var kill = 0
+    private var kill = 0
+    private var secretWord = "test"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_play)
 
-        //val extras = intent.extras
+        val extras = intent.extras
+        if (extras != null) {
+            @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+            secretWord = extras.getString("secretWord")
+            toBeGuessed.text = secretWord
+        }
     }
 
-
     fun guessTry(click: View) {
-
-
         if (click === tryButton) {
-
             if(wrong()){
                 kill++
                 when(kill){
@@ -49,21 +47,9 @@ class PlayActivity : AppCompatActivity() {
         }
     }
 
-    /*
-    fun butClick(view: View) {
-
-        val butSelected = view as Button
-
-        when (butSelected.id) {
-            R.id.tryButton -> hangmanDrawing.setImageResource(R.drawable.hangman9)
-        }
-    }
-    */
-
-    private fun winDialogPopUp(winner: Int) {
+    private fun winDialogPopUp(won: Boolean) {
         val builder = AlertDialog.Builder(this@PlayActivity)
-
-        if(winner == 1) {
+        if(won) {
             builder.setTitle("Congratulations!")
         }else{
             builder.setTitle("Boo! You hanged a man!")
@@ -71,19 +57,11 @@ class PlayActivity : AppCompatActivity() {
         builder.setMessage("Do you want to play again?")
 
         builder.setPositiveButton("Let's go"){ _, _ ->
-
-            Toast.makeText(applicationContext,"New background for even more entertainment!",Toast.LENGTH_SHORT).show()
-
-            val rnd = Random()
-            val color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-            val ll = findViewById<ConstraintLayout>(R.id.activity_play)
-            ll.setBackgroundColor(color)
+            Toast.makeText(applicationContext,"New game started!",Toast.LENGTH_SHORT).show()
         }
-
         builder.setNegativeButton("No"){ _, _ ->
             finish()
         }
-
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }

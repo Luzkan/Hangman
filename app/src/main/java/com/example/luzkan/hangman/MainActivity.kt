@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -13,7 +14,12 @@ class MainActivity : AppCompatActivity() {
 
         play.setOnClickListener{
             val intent = Intent(this,PlayActivity::class.java)
-            //intent.putExtra("aiMode", true)
+            val guessWordsArray: Array<String> = resources.getStringArray(R.array.guessWords)
+
+            val rand = Random().nextInt(guessWordsArray.size-0)+0
+            val secretWord = guessWordsArray[rand]
+
+            intent.putExtra("secretWord", secretWord)
             startActivity(intent)
         }
 
