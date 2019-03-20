@@ -5,15 +5,14 @@ Hangman Game for Android made in Kotlin
 
 ## About Game
 It's my third small project for Android.
-This time it's a simple game featuring a dying person (unless the player have dictionary knowledge).
+This time it's a simple game featuring a dying person (unless the player have dictionary knowledge - then the plot may change).
 Player needs to guess a word that was randomly chosen from a .xml list. *He doesn't know the wordlist of course.*
-He can either try to guess whole password at once or just try to guess a letter.
-If the word/char isn't in the word which he needs to guess, game will prepare another element of a gibbet and show it on the screen.
-If player will continue to ask for wrong letters a man will be hunged.
+He can either try to guess whole password at once or just try to guess a single letter, however, if the word/char isn't in the word which he needs to guess, game will prepare one of the elements of a gibbet and show it on the screen.
+If player will keep missing with his guesses then a man will be hanged.
 
-Sounds scary?
+Sounds scary? Oh yeah, it is.
 
-Try to be the brave man in your house and save the day of some people by trying out that simple game.
+Be the brave man in your house and save the day of some people by trying out that simple game.
 
 ## Project Featuring
 * Multiple activites (two, lol)
