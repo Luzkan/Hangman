@@ -11,7 +11,9 @@ class PlayActivity : AppCompatActivity() {
 
     // When kill reaches 10 - player loses.
     private var kill = 0
-    private var secretWord = "test"
+    private var secretWord = ""
+    private var secretDisplay = ""
+    private val correctGuesses = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,23 +40,60 @@ class PlayActivity : AppCompatActivity() {
 
     fun guessTry(click: View) {
         if (click === tryButton) {
-            if(wrong()){
-                kill++
-                when(kill){
-                    1 -> hangmanDrawing.setImageResource(R.drawable.hangman1)
-                    2 -> hangmanDrawing.setImageResource(R.drawable.hangman2)
-                    3 -> hangmanDrawing.setImageResource(R.drawable.hangman3)
-                    4 -> hangmanDrawing.setImageResource(R.drawable.hangman4)
-                    5 -> hangmanDrawing.setImageResource(R.drawable.hangman5)
-                    6 -> hangmanDrawing.setImageResource(R.drawable.hangman6)
-                    7 -> hangmanDrawing.setImageResource(R.drawable.hangman7)
-                    8 -> hangmanDrawing.setImageResource(R.drawable.hangman8)
-                    9 -> hangmanDrawing.setImageResource(R.drawable.hangman9)
-                    10 -> hangmanDrawing.setImageResource(R.drawable.hangman10)
+            val pGuess = playerGuess.text.toString()
+
+            // Player asks for a letter
+            if (pGuess.length == 1) {
+                if (pGuess in secretWord) {
+
+                    correctGuesses.add(pGuess)
+                    refractorSecret()
+                    toBeGuessed.text = secretDisplay
+
+                    Toast.makeText(applicationContext,"Good guess!",Toast.LENGTH_SHORT).show()
+                    return
                 }
-            }else{
-                Toast.makeText(applicationContext,"Good guess!",Toast.LENGTH_SHORT).show()
             }
+
+            // Player tries to guess
+            if (pGuess.length > 1) {
+                if (pGuess == secretWord) {
+                    winDialogPopUp(true)
+                    return
+                }
+            }
+
+            // Player fails
+            kill++
+            when (kill) {
+                1 -> hangmanDrawing.setImageResource(R.drawable.hangman1)
+                2 -> hangmanDrawing.setImageResource(R.drawable.hangman2)
+                3 -> hangmanDrawing.setImageResource(R.drawable.hangman3)
+                4 -> hangmanDrawing.setImageResource(R.drawable.hangman4)
+                5 -> hangmanDrawing.setImageResource(R.drawable.hangman5)
+                6 -> hangmanDrawing.setImageResource(R.drawable.hangman6)
+                7 -> hangmanDrawing.setImageResource(R.drawable.hangman7)
+                8 -> hangmanDrawing.setImageResource(R.drawable.hangman8)
+                9 -> hangmanDrawing.setImageResource(R.drawable.hangman9)
+                10 -> {
+                    hangmanDrawing.setImageResource(R.drawable.hangman10)
+                    winDialogPopUp(false)
+                }
+            }
+        }
+    }
+
+    fun refractorSecret() {
+        secretDisplay = ""
+        secretWord?.forEach {
+                s -> secretDisplay += (checkIfGuessed(s.toString()))
+        }
+    }
+
+    fun checkIfGuessed(s: String) : String {
+        return when (correctGuesses.contains(s)) {
+            true -> s
+            false -> "_"
         }
     }
 

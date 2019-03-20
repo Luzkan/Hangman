@@ -22,6 +22,5 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("secretWord", secretWord)
             startActivity(intent)
         }
-
     }
 }
