@@ -12,5 +12,14 @@
         <item>Oligarchy</item>
         <item>Transylvania</item>
         <item>Ostracism</item>
+        <item>Feudalism</item>
+        <item>Kotlin</item>
+        <item>Happiness</item>
+        <item>Sadness</item>
+        <item>Monster</item>
+        <item>Energy</item>
+        <item>Drink</item>
+        <item>Coffee</item>
+        <item>Tea</item>
     </string-array>
 </resources>

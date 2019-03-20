@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_play.*
+import java.util.*
 
 class PlayActivity : AppCompatActivity() {
 
@@ -21,43 +22,33 @@ class PlayActivity : AppCompatActivity() {
 
         val extras = intent.extras
         if (extras != null) {
-
             @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
             secretWord = extras.getString("secretWord")
-
-            var n = 0
-            var secretDisplay = ""
-            val secretLetter = "_"
-
-            while(n <= secretWord.length){
-                secretDisplay += secretLetter
-                n++
-            }
-
-            toBeGuessed.text = secretDisplay
         }
+
+        prepGame()
     }
 
     fun guessTry(click: View) {
         if (click === tryButton) {
-            val pGuess = playerGuess.text.toString()
+            val pGuess = playerGuess.text.toString().toLowerCase()
 
             // Player asks for a letter
             if (pGuess.length == 1) {
-                if (pGuess in secretWord) {
+                if (pGuess in secretWord.toLowerCase()) {
 
                     correctGuesses.add(pGuess)
-                    refractorSecret()
-                    toBeGuessed.text = secretDisplay
+                    refactorSecret()
 
                     Toast.makeText(applicationContext,"Good guess!",Toast.LENGTH_SHORT).show()
+                    checkWin()
                     return
                 }
             }
 
             // Player tries to guess
             if (pGuess.length > 1) {
-                if (pGuess == secretWord) {
+                if (pGuess.toLowerCase() == secretWord.toLowerCase()) {
                     winDialogPopUp(true)
                     return
                 }
@@ -83,20 +74,35 @@ class PlayActivity : AppCompatActivity() {
         }
     }
 
-    fun refractorSecret() {
+    // Recreate display of the secret word based on progress
+    private fun refactorSecret() {
         secretDisplay = ""
         secretWord.forEach {
                 s -> secretDisplay += (checkIfGuessed(s.toString()))
         }
+        toBeGuessed.text = secretDisplay
     }
 
-    fun checkIfGuessed(s: String) : String {
-        return when (correctGuesses.contains(s)) {
+    // Reveal correctly guessed letters
+    private fun checkIfGuessed(s: String) : String {
+        return when (correctGuesses.contains(s.toLowerCase())) {
             true -> s
             false -> "_"
         }
     }
 
+    // If a char from secretWord isn't in guess chars then player didn't guess everything yet
+    private fun checkWin() {
+        var everythingGuessed = true
+        secretWord.toLowerCase().forEach { c ->
+            if (!correctGuesses.contains(c.toString()))
+                everythingGuessed = false
+        }
+        if(everythingGuessed)
+            winDialogPopUp(true)
+    }
+
+    // Win/Lose alert
     private fun winDialogPopUp(won: Boolean) {
         val builder = AlertDialog.Builder(this@PlayActivity)
         if(won) {
@@ -107,7 +113,13 @@ class PlayActivity : AppCompatActivity() {
         builder.setMessage("Do you want to play again?")
 
         builder.setPositiveButton("Let's go"){ _, _ ->
+
+            // This one below is in main view more readable
+            secretWord = resources.getStringArray(R.array.guessWords)[Random().nextInt(resources.getStringArray(R.array.guessWords).size-0)+0]
+            prepGame()
+
             Toast.makeText(applicationContext,"New game started!",Toast.LENGTH_SHORT).show()
+
         }
         builder.setNegativeButton("No"){ _, _ ->
             finish()
@@ -116,9 +128,18 @@ class PlayActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun wrong(): Boolean {
-        return true
-    }
+    // Reset & Create New Game
+    private fun prepGame(){
+        hangmanDrawing.setImageResource(R.drawable.hangman0)
+        kill = 0
+        secretDisplay = ""
+        correctGuesses.clear()
 
+        repeat(secretWord.length) {
+            secretDisplay += "_"
+        }
+
+        toBeGuessed.text = secretDisplay
+    }
 }
 
