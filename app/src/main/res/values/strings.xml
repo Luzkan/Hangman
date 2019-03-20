@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Hangman</string>
+    <string name="turn">Turn:</string>
+    <string name="player">Don\'t let the dude die</string>
+    <string name="play">Start Game</string>
+    <string name="hangman">Hangman</string>
+    <string name="guess">Guess</string>
+    <string name="todo">TODO</string>
+    <string name="trystring">try</string>
+    <string-array name="guessWords">
+        <item>Tranzystor</item>
+        <item>Oligarchia</item>
+        <item>Transylwania</item>
+        <item>Ostracyzm</item>
+    </string-array>
+</resources>
