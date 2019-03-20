@@ -19,9 +19,20 @@ class PlayActivity : AppCompatActivity() {
 
         val extras = intent.extras
         if (extras != null) {
+
             @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
             secretWord = extras.getString("secretWord")
-            toBeGuessed.text = secretWord
+
+            var n = 0
+            var secretDisplay = ""
+            val secretLetter = "_"
+
+            while(n <= secretWord.length){
+                secretDisplay += secretLetter
+                n++
+            }
+
+            toBeGuessed.text = secretDisplay
         }
     }
 
