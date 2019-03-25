@@ -32,6 +32,7 @@ class PlayActivity : AppCompatActivity() {
     fun guessTry(click: View) {
         if (click === tryButton) {
             val pGuess = playerGuess.text.toString().toLowerCase()
+            tryButton.text = null
 
             // Player asks for a letter
             if (pGuess.length == 1) {
